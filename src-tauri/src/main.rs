@@ -8,7 +8,11 @@ use tauri::{Manager, State};
 
 #[tauri::command]
 fn sources(source_manager: State<SourceManager>) -> Vec<EbiSource> {
-    source_manager.sources()
+    // The source list depends on how readDir works, which may
+    // return sources out of order.
+    let mut sources = source_manager.sources();
+    sources.sort_by(|a, b| a.title.cmp(&b.title));
+    sources
 }
 
 #[tauri::command]
@@ -20,6 +24,17 @@ fn manga_list(identifier: &str, source_manager: State<SourceManager>) -> Option<
         Err(err) => {
             log::error!("{}", err);
             None
+        }
+    }
+}
+
+#[tauri::command]
+fn manga_cover(manga: EbiManga, archive: State<SourceArchiver>) -> String {
+    match archive.save_manga_cover(&manga) {
+        Ok(manga) => manga.cover,
+        Err(err) => {
+            log::error!("{}", err);
+            manga.cover
         }
     }
 }
@@ -60,7 +75,8 @@ fn main() {
     let source_archive = SourceArchiver::from(&source_manager);
     source_manager.load_sources().unwrap();
 
-    let source_dir = source_manager.dir();
+    let source_dir = source_manager.source_dir();
+    log::debug!("{}", source_dir.display());
 
     tauri::Builder::default()
         .setup(|app| {
@@ -75,6 +91,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             sources,
             manga_list,
+            manga_cover,
             chapter_list,
             chapter_page_list
         ])

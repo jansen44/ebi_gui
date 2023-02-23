@@ -1,0 +1,10 @@
+.mangaList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+    gap: 1rem;
+    justify-content: start;
+
+    @media screen and (max-width: 766px) {
+      justify-content: initial;
+    }
+}

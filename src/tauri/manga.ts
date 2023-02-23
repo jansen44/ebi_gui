@@ -15,3 +15,7 @@ export async function mangaList(
 ): Promise<EbiManga[] | null> {
   return await invoke("manga_list", { identifier: source_identifier });
 }
+
+export async function mangaCover(manga: EbiManga): Promise<string> {
+  return await invoke("manga_cover", { manga });
+}
