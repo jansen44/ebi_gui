@@ -44,7 +44,11 @@ fn chapter_list(manga: EbiManga, source_manager: State<SourceManager>) -> Option
     let chapters = source_manager.chapter_list(&manga);
 
     match chapters {
-        Ok(chapters) => Some(chapters),
+        Ok(chapters) => {
+            let mut chapters = chapters;
+            chapters.reverse();
+            Some(chapters)
+        }
         Err(err) => {
             log::error!("{}", err);
             None
