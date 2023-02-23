@@ -9,6 +9,6 @@ export interface EbiSource {
   locale: SourceLocale;
 }
 
-async function sourceList(): Promise<EbiSource[]> {
+export async function sourceList(): Promise<EbiSource[]> {
   return await invoke("sources");
 }

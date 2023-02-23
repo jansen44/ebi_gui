@@ -10,7 +10,7 @@ export interface EbiManga {
   source_identifier: string;
 }
 
-async function mangaList(
+export async function mangaList(
   source_identifier: string
 ): Promise<EbiManga[] | null> {
   return await invoke("manga_list", { identifier: source_identifier });

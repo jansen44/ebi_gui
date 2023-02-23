@@ -9,10 +9,14 @@ export interface EbiChapter {
   source_identifier: string;
 }
 
-async function chapterList(manga: EbiManga): Promise<EbiChapter[] | null> {
+export async function chapterList(
+  manga: EbiManga
+): Promise<EbiChapter[] | null> {
   return await invoke("chapter_list", { manga });
 }
 
-async function chapterPageList(chapter: EbiChapter): Promise<string[] | null> {
+export async function chapterPageList(
+  chapter: EbiChapter
+): Promise<string[] | null> {
   return await invoke("chapter_page_list", { chapter });
 }
