@@ -15,7 +15,7 @@ fn sources(source_manager: State<SourceManager>) -> Vec<EbiSource> {
     sources
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 fn manga_list(identifier: &str, source_manager: State<SourceManager>) -> Option<Vec<EbiManga>> {
     let manga = source_manager.manga_list(identifier);
 
@@ -28,7 +28,7 @@ fn manga_list(identifier: &str, source_manager: State<SourceManager>) -> Option<
     }
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 fn manga_cover(manga: EbiManga, archive: State<SourceArchiver>) -> String {
     match archive.save_manga_cover(&manga) {
         Ok(manga) => manga.cover,
@@ -39,7 +39,7 @@ fn manga_cover(manga: EbiManga, archive: State<SourceArchiver>) -> String {
     }
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 fn chapter_list(manga: EbiManga, source_manager: State<SourceManager>) -> Option<Vec<EbiChapter>> {
     let chapters = source_manager.chapter_list(&manga);
 
@@ -56,7 +56,7 @@ fn chapter_list(manga: EbiManga, source_manager: State<SourceManager>) -> Option
     }
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 fn chapter_page_list(
     chapter: EbiChapter,
     source_manager: State<SourceManager>,
