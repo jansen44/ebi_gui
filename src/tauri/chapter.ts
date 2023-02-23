@@ -20,3 +20,19 @@ export async function chapterPageList(
 ): Promise<string[] | null> {
   return await invoke("chapter_page_list", { chapter });
 }
+
+export async function chapterPage({
+  chapter,
+  pageUrl,
+  page,
+}: {
+  chapter: EbiChapter;
+  pageUrl: string;
+  page: number;
+}): Promise<string | null> {
+  return await invoke("chapter_page", {
+    chapter,
+    pageUrl,
+    page,
+  });
+}

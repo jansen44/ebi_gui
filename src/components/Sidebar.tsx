@@ -43,6 +43,9 @@ export function Sidebar() {
         <Show when={!!selectedManga()}>
           <button onClick={onMangaClick}>{selectedManga()?.identifier}</button>
         </Show>
+        <Show when={!!selectedChapter()}>
+          <button onClick={onMangaClick}>{selectedChapter()?.chapter}</button>
+        </Show>
       </div>
     </div>
   );

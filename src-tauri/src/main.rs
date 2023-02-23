@@ -72,6 +72,22 @@ fn chapter_page_list(
     }
 }
 
+#[tauri::command(async)]
+fn chapter_page(
+    chapter: EbiChapter,
+    page_url: String,
+    page: u32,
+    archive: State<SourceArchiver>,
+) -> Option<String> {
+    match archive.save_chapter_pages(&chapter, (&page_url, page)) {
+        Ok(page) => Some(page),
+        Err(err) => {
+            log::error!("{}", err);
+            None
+        }
+    }
+}
+
 fn main() {
     simple_logger::SimpleLogger::new().env().init().unwrap();
 
@@ -97,7 +113,8 @@ fn main() {
             manga_list,
             manga_cover,
             chapter_list,
-            chapter_page_list
+            chapter_page_list,
+            chapter_page,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
